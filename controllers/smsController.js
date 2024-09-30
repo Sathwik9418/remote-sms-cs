@@ -1,7 +1,9 @@
+require('dotenv').config(); // Load environment variables from .env file
 const twilio = require('twilio');
 
-const accountSid = 'ACe305f70b83d9d94b2b46be95da7dde03';
-const authToken = '842b411ffc59b08922244646f5227bc6';
+// Use environment variables for sensitive data
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = new twilio(accountSid, authToken);
 
 const sendSMS = (req, res) => {
@@ -16,7 +18,7 @@ const sendSMS = (req, res) => {
     client.messages
         .create({
             body: command,
-            from: '+18435074625', // Your Twilio phone number
+            from: process.env.TWILIO_PHONE_NUMBER, // Use Twilio phone number from environment variables
             to: to,
         })
         .then(message => {
